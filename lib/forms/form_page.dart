@@ -30,7 +30,7 @@ class _FormPageState extends State<FormPage> {
   final serialNo = TextEditingController();
 
   List<String> _serviceValues = ['Project', 'Maintenance', 'Ad-Hoc', 'Others'];
-  String? _selectedValues = "";
+  String _selectedValue = "Project";
 
   List<Step> getSteps() => [
         Step(
@@ -158,28 +158,47 @@ class _FormPageState extends State<FormPage> {
           ),
           content: Container(
             child: DropdownButton(
-              hint: Text('-Select-'),
-              value: _serviceValues,
+              //hint: Text('-Select-'),
+              value: _selectedValue,
               onChanged: (newValue) {
-                setState(() => _selectedValues = newValue as String?);
+                setState(() => _selectedValue = newValue as String);
               },
-              items: _serviceValues.map((services) {
+              items: _serviceValues.map((serviceValue) {
                 return DropdownMenuItem(
-                  child: new Text(services),
-                  value: services,
+                  child: new Text(serviceValue),
+                  value: serviceValue,
                 );
               }).toList(),
             ),
           ),
         ),
+
         Step(
           isActive: currentStep >= 4,
           title: Text(
             'Report Issues',
             style: GoogleFonts.ubuntu(),
           ),
-          content: Container(),
+          content: Column(
+            children: <Widget>[
+              TextFormField(
+                controller: clientAddress,
+                decoration: InputDecoration(
+                    labelText: 'Task Completed',
+                    hintText: 'Implementation Details'),
+              ),
+              TextFormField(
+                controller: clientState,
+                decoration: InputDecoration(labelText: 'Technical Issues'),
+              ),
+              TextFormField(
+                controller: clientPostcode,
+                decoration: InputDecoration(labelText: 'Remarks'),
+              ),
+            ],
+          ),
         ),
+
         Step(
           isActive: currentStep >= 5,
           title: Text(
