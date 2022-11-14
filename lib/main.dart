@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:report_app/forms/form_page.dart';
+import 'package:report_app/location/map_screen.dart';
 import 'package:report_app/pages/dashboard_page.dart';
 import 'package:report_app/pages/login-page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:report_app/auth/main_page.dart';
+import 'package:report_app/sign/signature_page.dart';
+import 'package:get/get.dart';
+import 'location/location_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,10 +23,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(),
-      home: FormPage(),
-    );
+    Get.put(LocationController());
+    return GetMaterialApp(
+        title: 'Flutter Demo', theme: ThemeData(),
+        home: MapScreen()
+        //home: SignaturePage(),
+        );
   }
 }

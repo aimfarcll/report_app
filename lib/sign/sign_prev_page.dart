@@ -28,6 +28,7 @@ class SignaturePreviewPage extends StatelessWidget {
               icon: Icon(Icons.done),
               onPressed: () => storeSignature(context),
             ),
+          
             const SizedBox(width: 8),
           ],
         ),

@@ -1,19 +1,17 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:report_app/sign/sign_prev_page.dart';
 import 'package:signature/signature.dart';
 
 class SignaturePage extends StatefulWidget {
-  
   @override
   State<SignaturePage> createState() => _SignaturePageState();
 }
 
 class _SignaturePageState extends State<SignaturePage> {
-  SignatureController controller;
+  SignatureController controller = SignatureController();
 
-@override
+  @override
   void initState() {
     super.initState();
 
@@ -21,6 +19,7 @@ class _SignaturePageState extends State<SignaturePage> {
       //put pen colour
       penColor: Colors.black,
       penStrokeWidth: 5,
+  
     );
   }
 
@@ -35,9 +34,12 @@ class _SignaturePageState extends State<SignaturePage> {
   Widget build(BuildContext context) => Scaffold(
         body: Column(
           children: <Widget>[
-            Signature(
-              controller: controller,
-              backgroundColor: Colors.white,
+            //put expanded to avoid infinity error
+            Expanded(
+              child: Signature(
+                controller: controller,
+                backgroundColor: Colors.white,
+              ),
             ),
             buildButtons(context),
           ],
@@ -65,7 +67,7 @@ class _SignaturePageState extends State<SignaturePage> {
             final signature = await exportSignature();
 
             await Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => SignaturePreviewPage(signature: signature),
+              builder: (context) => SignaturePreviewPage(signature: signature!),
             ));
 
             //clear signature
@@ -82,7 +84,7 @@ class _SignaturePageState extends State<SignaturePage> {
         onPressed: () => controller.clear(),
       );
 
-  Future<Uint8List> exportSignature() async {
+  Future<Uint8List?> exportSignature() async {
     final exportController = SignatureController(
       penStrokeWidth: 2,
       //image saved in the gallery properties
@@ -95,7 +97,6 @@ class _SignaturePageState extends State<SignaturePage> {
     //export method
     final signature = await exportController.toPngBytes();
     exportController.dispose();
-    return signature; 
-
+    return signature;
   }
 }
