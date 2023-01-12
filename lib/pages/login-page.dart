@@ -3,6 +3,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:report_app/forms/form_page.dart';
+
+import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
   final VoidCallback showRegisterPage;
@@ -22,6 +25,7 @@ class _LoginPageState extends State<LoginPage> {
       email: _emailController.text.trim(),
       password: _passwordController.text.trim(),
     );
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => FormPage()));
   }
 
   @override
@@ -33,32 +37,62 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[300],
+    return Container(
+      constraints: const BoxConstraints.expand(),
+      decoration: const BoxDecoration(
+        image: DecorationImage(image: AssetImage("assets/images/bgimage5.jpeg"),
+        fit: BoxFit.cover,
+        )
+,),
+
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+      //backgroundColor: Colors.grey[300],
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.library_books_outlined,
-                  size: 100,
-                ),
-                SizedBox(height: 35),
+                Image.asset('assets/images/cll-logo-blue.png',
+                height:100, width: 180,
+                    fit: BoxFit.fitWidth),
+                //Icon(
+                  //Icons.library_books_outlined,
+                  //size: 100,
+                //),
+                SizedBox(height: 15),
 
-                Text(
+                 Text(
                   'Welcome',
-                  style: GoogleFonts.workSans(
-                    fontSize: 52,
-                    fontWeight: FontWeight.w200,
+                  style: GoogleFonts.lato(
+                    fontSize: 42,
+                    color: Colors.white70,
+                    fontWeight: FontWeight.w600,
+                    shadows: [
+                    Shadow(
+                    blurRadius: 3.0,
+                    color: Colors.white70,
+                    offset: Offset(2.0, 2.0),
                   ),
+                   ],
+                ),
+
                 ),
                 SizedBox(height: 10),
                 Text(
-                  'CLL Systems Report App',
-                  style: GoogleFonts.workSans(
-                    fontSize: 20,
+                  "Status Reporting made easy.",
+                  style: GoogleFonts.lato(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 25,
+                    color: Colors.white,
+                    shadows: [
+                    Shadow(
+                    blurRadius: 10.0,
+                    color: Colors.blue,
+                    offset: Offset(5.0, 5.0),
+                  ),
+                ],
                   ),
                 ),
                 SizedBox(height: 50),
@@ -70,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
                       border: Border.all(color: Colors.white),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(19),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.only(left: 20.0),
@@ -93,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
                       border: Border.all(color: Colors.white),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(19),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.only(left: 20.0),
@@ -119,12 +153,12 @@ class _LoginPageState extends State<LoginPage> {
                       padding: EdgeInsets.all(20),
                       decoration: BoxDecoration(
                         color: Colors.deepPurple,
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(19),
                       ),
                       child: Center(
                         child: Text(
                           'Sign In',
-                          style: GoogleFonts.workSans(
+                          style: GoogleFonts.lato(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
@@ -146,6 +180,7 @@ class _LoginPageState extends State<LoginPage> {
                       'New user?',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                     GestureDetector(
@@ -165,6 +200,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
-    );
+    ),);
   }
 }

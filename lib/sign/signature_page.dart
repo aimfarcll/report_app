@@ -13,20 +13,18 @@ class _SignaturePageState extends State<SignaturePage> {
 
   @override
   void initState() {
-    super.initState();
-
     controller = SignatureController(
       //put pen colour
       penColor: Colors.black,
       penStrokeWidth: 5,
-  
     );
+    super.initState();
   }
 
   @override
   //free controller to clear up when not in used
   void dispose() {
-    controller.dispose();
+    controller!.dispose();
     super.dispose();
   }
 
@@ -38,7 +36,7 @@ class _SignaturePageState extends State<SignaturePage> {
             Expanded(
               child: Signature(
                 controller: controller,
-                backgroundColor: Colors.white,
+                backgroundColor: Colors.teal,
               ),
             ),
             buildButtons(context),
@@ -46,6 +44,7 @@ class _SignaturePageState extends State<SignaturePage> {
         ),
       );
 
+  //create the check and cancel button paling bawah
   Widget buildButtons(BuildContext context) => Container(
         color: Colors.black,
         child: Row(
@@ -62,16 +61,15 @@ class _SignaturePageState extends State<SignaturePage> {
         icon: Icon(Icons.check, color: Colors.green),
         //when clicked, call controller to export image, store to local storage
         onPressed: () async {
-          if (controller.isNotEmpty) {
+          if (controller!.isNotEmpty) {
             //! empty, export
             final signature = await exportSignature();
-
             await Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => SignaturePreviewPage(signature: signature!),
-            ));
+              builder: (context) => SignaturePreviewPage(signature: signature!)
+            ),);
 
             //clear signature
-            controller.clear();
+            controller!.clear();
           }
         },
       );
@@ -81,21 +79,21 @@ class _SignaturePageState extends State<SignaturePage> {
         iconSize: 36,
         icon: Icon(Icons.clear, color: Colors.red),
         //when clicked, call controller to clear digi pad
-        onPressed: () => controller.clear(),
+        onPressed: () => controller!.clear(),
       );
 
   Future<Uint8List?> exportSignature() async {
     final exportController = SignatureController(
-      penStrokeWidth: 2,
+      penStrokeWidth: 5,
       //image saved in the gallery properties
       penColor: Colors.black,
       exportBackgroundColor: Colors.white,
       //plg penting!! get the signature by getting points of the signature
-      points: controller.points,
+      points: controller!.points,
     );
 
     //export method
-    final signature = await exportController.toPngBytes();
+    final signature = exportController.toPngBytes();
     exportController.dispose();
     return signature;
   }

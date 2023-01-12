@@ -4,7 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:report_app/auth/auth_page.dart';
+import 'package:report_app/auth/main_page.dart';
 import 'package:report_app/main.dart';
+import 'package:report_app/pages/dashboard_page.dart';
+import 'package:report_app/pages/home_page.dart';
+import 'package:report_app/sign/signature_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FormPage extends StatefulWidget {
   const FormPage({Key? key}) : super(key: key);
@@ -16,6 +22,8 @@ class FormPage extends StatefulWidget {
 class _FormPageState extends State<FormPage> {
   int currentStep = 0;
   bool isCompleted = false;
+  final user = FirebaseAuth.instance.currentUser!;
+
 
   //for dropdown widget, initial selected value
 
@@ -28,6 +36,7 @@ class _FormPageState extends State<FormPage> {
   final equipment = TextEditingController();
   final model = TextEditingController();
   final serialNo = TextEditingController();
+
 
   List<String> _serviceValues = ['Project', 'Maintenance', 'Ad-Hoc', 'Others'];
   String _selectedValue = "Project";
@@ -50,7 +59,7 @@ class _FormPageState extends State<FormPage> {
                   labelStyle: GoogleFonts.ubuntu(
                     fontSize: 15,
                   ),
-                  errorMaxLines: 2,
+                  /*errorMaxLines: 2,
                   contentPadding: EdgeInsets.all(20),
                   filled: true,
                   fillColor: Colors.indigo[100],
@@ -69,7 +78,12 @@ class _FormPageState extends State<FormPage> {
               )
             ],
           ),
-        ),
+        ),*/
+  ),
+  ),
+        ],
+  ),
+  ),
         Step(
           state: currentStep > 1 ? StepState.complete : StepState.indexed,
           isActive: currentStep >= 1,
@@ -205,8 +219,18 @@ class _FormPageState extends State<FormPage> {
             'Verification',
             style: GoogleFonts.ubuntu(),
           ),
-          content: Container(),
+          content:  OutlinedButton.icon( // <-- OutlinedButton
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => SignaturePage()));
+            },
+            icon: Icon(
+              Icons.verified,
+              size: 24.0,
+            ),
+            label: Text('Verify Report'),
+          ),
         ),
+
         Step(
           isActive: currentStep >= 6,
           title: Text(
@@ -221,16 +245,37 @@ class _FormPageState extends State<FormPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Center(
-            child: Text(
-              'Status Report',
+        centerTitle: true,
+          title:
+            Text(
+              'Weekly Status Report',
               style: GoogleFonts.ubuntu(
                 fontWeight: FontWeight.bold,
                 color: Colors.indigo[900],
               ),
             ),
-          ),
-          //bawah ni for icon menu (TBC)
+              leading: IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => myForm()));
+                },
+                icon: Icon(Icons.arrow_back_ios,
+                color: Colors.indigo[900],),
+              ),
+
+             actions: [
+              IconButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => AuthPage()));
+    },
+    icon: Icon(Icons.logout_outlined,
+      color: Colors.indigo[900],
+    ),
+              ),
+  ],
+
+
+
+  //bawah ni for icon menu (TBC)
           /*iconTheme: IconThemeData(color: Colors.indigo[900]),
           actions: <Widget>[
             IconButton(
@@ -267,7 +312,7 @@ class _FormPageState extends State<FormPage> {
               print('Completed!');
               //delay 3 seconds, then go back to home page
               Future.delayed(Duration(seconds: 3), () {
-                Navigator.of(context).pop();
+                Navigator.of(context).pop(SignaturePage());
               });
             } else {
               setState(() => currentStep += 1);

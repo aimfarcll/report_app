@@ -26,10 +26,17 @@ class _MapScreenState extends State<MapScreen> {
   void initState() {
     super.initState();
     _cameraPosition =
-        CameraPosition(target: LatLng(45.521563, -122.677433), zoom: 17);
+        CameraPosition(target: LatLng(3.118512000236243, 101.66504580394091), zoom: 17);
   }
 
+
   late GoogleMapController _mapController;
+
+  void dispose() {
+    _mapController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     //take from Location controller class and build an instance

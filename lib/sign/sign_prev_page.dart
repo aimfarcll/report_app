@@ -6,6 +6,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:report_app/forms/form_page.dart';
 
 class SignaturePreviewPage extends StatelessWidget {
   final Uint8List signature;
@@ -16,23 +17,25 @@ class SignaturePreviewPage extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        backgroundColor: Colors.black,
+  Widget build(BuildContext context) =>
+      Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.indigo[900],
           leading: CloseButton(),
-          title: Text('Store Signature'),
-          centerTitle: true,
           actions: [
             IconButton(
               icon: Icon(Icons.done),
               onPressed: () => storeSignature(context),
             ),
-          
-            const SizedBox(width: 8),
           ],
+          title: Text('Store Signature'),
+          centerTitle: true,
         ),
-      );
+          body: Center(
+            child: Image.memory(signature),
+          ));
+
 
   //future to store sign as we need to get permission
   Future storeSignature(BuildContext context) async {
@@ -53,11 +56,12 @@ class SignaturePreviewPage extends StatelessWidget {
     //if yes, go back to the signature screen
     if (isSuccess) {
       Navigator.pop(context);
-
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => FormPage()));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Text('Saved to signature folder'),
             backgroundColor: Colors.indigo[900]),
+
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
