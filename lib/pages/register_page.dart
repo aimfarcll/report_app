@@ -7,7 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:report_app/auth/auth_page.dart';
 import 'package:report_app/auth/main_page.dart';
+import 'package:report_app/pages/listForm.dart';
 
+import '../forms/form_page.dart';
 import 'home_page.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -39,8 +41,8 @@ class _RegisterPageState extends State<RegisterPage> {
         password: _passwordController.text.trim(),
       );
 
-    //  Navigator.of(context).push(
-       //   MaterialPageRoute(builder: (context) => HomePage()));
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => UserForms()));
     }
   }
 
@@ -151,7 +153,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20.0),
                         child: TextField(
-                          controller: _confirmpasswordController,
+                          controller: _passwordController,
                           obscureText: true,
                           decoration: InputDecoration(
                             border: InputBorder.none,

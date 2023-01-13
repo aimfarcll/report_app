@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:report_app/sign/sign_prev_page.dart';
 import 'package:signature/signature.dart';
 
@@ -30,13 +31,33 @@ class _SignaturePageState extends State<SignaturePage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(
+        centerTitle: true,
+        title:
+        Text(
+          'Signature',
+          style: GoogleFonts.ubuntu(
+            fontWeight: FontWeight.bold,
+            color: Colors.indigo[900],
+          ),
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: Icon(Icons.arrow_back_ios,
+            color: Colors.indigo[900],),
+        ),
+
+        backgroundColor: Colors.white),
+
         body: Column(
           children: <Widget>[
             //put expanded to avoid infinity error
             Expanded(
               child: Signature(
                 controller: controller,
-                backgroundColor: Colors.teal,
+                backgroundColor: Colors.white,
               ),
             ),
             buildButtons(context),

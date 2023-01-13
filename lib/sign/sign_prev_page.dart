@@ -56,7 +56,9 @@ class SignaturePreviewPage extends StatelessWidget {
     //if yes, go back to the signature screen
     if (isSuccess) {
       Navigator.pop(context);
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => FormPage()));
+      Navigator.pop(context);
+
+      //Navigator.of(context).push(MaterialPageRoute(builder: (context) => FormPage()));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Text('Saved to signature folder'),

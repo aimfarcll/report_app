@@ -3,26 +3,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-class myForm extends StatefulWidget {
-  const myForm({Key? key}) : super(key: key);
-
-  @override
-  State<myForm> createState() => _myFormState();
-}
-
-class _myFormState extends State<myForm> {
-  @override
-
-  CollectionReference _referencemyForms = FirebaseFirestore.instance.collection('myForms');
-  late Stream <QuerySnapshot>_streammyForms;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _streammyForms= _referencemyForms.snapshots();
+class myForm extends StatelessWidget {
+  myForm({Key? key}) : super(key: key) {
+    _streammyForms = _referencemyForms.snapshots();
   }
+
+
+  CollectionReference _referencemyForms = FirebaseFirestore.instance.collection('users');
+  late Stream <QuerySnapshot> _streammyForms;
+
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,8 +29,11 @@ class _myFormState extends State<myForm> {
         , ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.notifications),
-            onPressed: () {},
+            icon: Icon(Icons.add),
+            onPressed: () {
+
+
+            },
           ),
           IconButton(
             icon: Icon(Icons.settings),
@@ -50,6 +44,7 @@ class _myFormState extends State<myForm> {
         elevation: 50.0,
         systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
+
       body: StreamBuilder<QuerySnapshot>(
         stream: _streammyForms,
         builder: (BuildContext context, AsyncSnapshot snapshot){
@@ -61,6 +56,27 @@ class _myFormState extends State<myForm> {
           if(snapshot.connectionState==ConnectionState.active)
             {
               QuerySnapshot querySnapshot = snapshot.data;
+              List<QueryDocumentSnapshot> documents = querySnapshot.docs;
+
+              //Convert the documents to Maps
+              List<Map> items = documents.map((e) =>
+              {
+                'name': e['name'],
+                'address': e['address']
+              }).toList();
+
+            return ListView.builder(
+            itemCount: items.length,
+            itemBuilder: (BuildContext context, int index) {
+            //Get the item at this index
+            Map thisItem = items[index];
+            //REturn the widget for the list items
+            return ListTile(
+            title: Text('${thisItem['name']}'),
+            subtitle: Text('${thisItem['address']}'),
+
+            );
+            });
             }
           return Center(child: CircularProgressIndicator());
         },

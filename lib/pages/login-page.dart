@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:report_app/forms/form_page.dart';
+import 'package:report_app/pages/listForm.dart';
 
 import 'home_page.dart';
 
@@ -25,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
       email: _emailController.text.trim(),
       password: _passwordController.text.trim(),
     );
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => FormPage()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => UserForms()));
   }
 
   @override

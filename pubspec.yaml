@@ -29,7 +29,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  intl: ^0.17.0
   gradient_app_bar: ^0.1.3
 
 
@@ -47,6 +47,9 @@ dependencies:
 
   #show snackbar
   flushbar: ^1.10.4
+  pdf: ^3.8.4
+  settings_ui: ^2.0.2
+
 
 
 dev_dependencies:
